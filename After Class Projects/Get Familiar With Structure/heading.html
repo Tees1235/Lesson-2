@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aspire Grammar School - A place for excellence in education.">
+    <title>Aspire Grammar School</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            transition: background-color 0.5s ease;
+        }
+
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            font-weight: lighter;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a {
+            color: white;
+            float: left;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        nav a.active {
+            background-color: #0056b3;
+        }
+
+        /* Section Styles */
+        .content {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-section,
+        .events-section,
+        .contact-section {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 20px;
+        }
+
+        .about-section h2,
+        .events-section h2,
+        .contact-section h2 {
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .about-section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .event-item {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contact Form */
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .contact-form button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background-color: #004494;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Animation for header */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Carousel */
+        .carousel {
+            display: flex;
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel img {
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            max-width: 100%;
+        }
+
+        .carousel-buttons {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+
+        .carousel-buttons button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .carousel-buttons button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Aspire Grammar School</h1>
+        <p>Where Education Meets Excellence</p>
+    </header>
+
+    <nav>
+        <a href="#about" class="active">About Us</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="content">
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2>About Aspire Grammar School</h2>
+            <p>Welcome to Aspire Grammar School, a leading institution dedicated to providing students with the highest
+                standard of education. We focus on academic excellence, personal development, and a holistic approach to
+                learning. Our state-of-the-art facilities and passionate educators ensure each student receives the best
+                possible support for their success.</p>
+        </section>
+
+        <!-- Carousel Section -->
+        <section class="carousel-wrapper">
+            <h2>School Highlights</h2>
+            <div class="carousel">
+                <img src="https://via.placeholder.com/1200x500?text=School+Campus" alt="School Campus">
+                <img src="https://via.placeholder.com/1200x500?text=Student+Life" alt="Student Life">
+                <img src="https://via.placeholder.com/1200x500?text=Graduation+Day" alt="Graduation Day">
+            </div>
+            <div class="carousel-buttons">
+                <button onclick="prevSlide()">&#10094;</button>
+                <button onclick="nextSlide()">&#10095;</button>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="events-section">
+            <h2>Upcoming Events</h2>
+            <div class="event-item">
+                <h3>Science Fair - February 15, 2025</h3>
+                <p>Join us for an exciting day of student-led science presentations and experiments!</p>
+            </div>
+            <div class="event-item">
+                <h3>Annual Sports Day - March 25, 2025</h3>
+                <p>Come cheer on our talented athletes in a series of fun and competitive events.</p>
+            </div>
+            <div class="event-item">
+                <h3>Parent-Teacher Conference - April 10, 2025</h3>
+                <p>A chance for parents to meet with teachers and discuss student progress.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or would like more information, feel free to reach out to us.</p>
+            <form action="mailto:info@aspiregrammarschool.com" method="POST" class="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Aspire Grammar School | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel img');
+
+        function showSlide(index) {
+            if (index >= slides.length) currentSlide = 0;
+            if (index < 0) currentSlide = slides.length - 1;
+            slides.forEach((slide, i) => {
+                slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
+            });
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        showSlide(currentSlide);
+    </script>
+
+</body>
+
+</html>
