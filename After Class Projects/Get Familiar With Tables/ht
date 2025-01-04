@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 50px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .signature:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 5px;
+            background-color: #333;
+            margin-top: 10px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="signature">Umar Singh</div>
+</body>
+</html>
