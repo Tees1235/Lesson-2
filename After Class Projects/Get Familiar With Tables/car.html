@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Game</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #eee;
+        }
+
+        #gameCanvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #333;
+            position: relative;
+        }
+
+        .car {
+            width: 50px;
+            height: 100px;
+            position: absolute;
+            background-color: #ff0000;
+            border-radius: 5px;
+        }
+
+        .obstacle {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: #000;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="gameCanvas" width="500" height="800"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const carWidth = 50;
+        const carHeight = 100;
+        let carX = (canvas.width - carWidth) / 2;
+        let carY = canvas.height - carHeight - 20;
+        const carSpeed = 10;
+
+        let obstacles = [];
+        let obstacleSpeed = 5;
+        let gameOver = false;
+
+        // Draw the car
+        function drawCar() {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(carX, carY, carWidth, carHeight);
+        }
+
+        // Draw obstacles
+        function drawObstacles() {
+            ctx.fillStyle = 'black';
+            obstacles.forEach(obstacle => {
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+            });
+        }
+
+        // Generate obstacles
+        function createObstacle() {
+            const width = 50;
+            const height = 50;
+            const x = Math.random() * (canvas.width - width);
+            const y = -height;
+            obstacles.push({ x, y, width, height });
+        }
+
+        // Move the obstacles
+        function moveObstacles() {
+            for (let i = 0; i < obstacles.length; i++) {
+                obstacles[i].y += obstacleSpeed;
+                if (obstacles[i].y > canvas.height) {
+                    obstacles.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        // Detect collision between car and obstacles
+        function detectCollision() {
+            for (let i = 0; i < obstacles.length; i++) {
+                if (
+                    carX < obstacles[i].x + obstacles[i].width &&
+                    carX + carWidth > obstacles[i].x &&
+                    carY < obstacles[i].y + obstacles[i].height &&
+                    carY + carHeight > obstacles[i].y
+                ) {
+                    gameOver = true;
+                    alert('Game Over!');
+                    break;
+                }
+            }
+        }
+
+        // Draw the game
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawCar();
+            drawObstacles();
+            moveObstacles();
+            detectCollision();
+
+            if (!gameOver) {
+                requestAnimationFrame(draw);
+            }
+        }
+
+        // Control the car
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowLeft' && carX > 0) {
+                carX -= carSpeed;
+            }
+            if (event.key === 'ArrowRight' && carX < canvas.width - carWidth) {
+                carX += carSpeed;
+            }
+        });
+
+        // Main game loop
+        function gameLoop() {
+            if (!gameOver) {
+                createObstacle();
+                draw();
+                setTimeout(gameLoop, 1000); // Create a new obstacle every second
+            }
+        }
+
+        gameLoop();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Space Shooter Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+            border: 2px solid #fff;
+        }
+
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: red;
+            display: none;
+        }
+
+        #scoreBoard {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+        }
+
+        #healthBar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            width: 200px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #health {
+            background-color: green;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="gameOver">GAME OVER! Press 'R' to Restart</div>
+    <div id="scoreBoard">Score: 0</div>
+    <div id="healthBar">
+        <div id="health"></div>
+    </div>
+
+    <script>
+        // Setup the game canvas and context
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Game variables
+        let score = 0;
+        let health = 100;
+        let gameOver = false;
+
+        // Player (spaceship)
+        const player = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height - 50,
+            width: 50,
+            height: 50,
+            speed: 5,
+            dx: 0,
+            dy: 0
+        };
+
+        // Projectiles
+        const projectiles = [];
+        const enemies = [];
+
+        // Key events for player movement
+        let leftPressed = false;
+        let rightPressed = false;
+        let spacePressed = false;
+
+        // Player movement
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowLeft" || event.key === "a") {
+                leftPressed = true;
+            }
+            if (event.key === "ArrowRight" || event.key === "d") {
+                rightPressed = true;
+            }
+            if (event.key === " " && !spacePressed) {
+                spacePressed = true;
+                shoot();
+            }
+            if (event.key === "r" && gameOver) {
+                resetGame();
+            }
+        });
+
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "ArrowLeft" || event.key === "a") {
+                leftPressed = false;
+            }
+            if (event.key === "ArrowRight" || event.key === "d") {
+                rightPressed = false;
+            }
+        });
+
+        // Player movement logic
+        function movePlayer() {
+            if (leftPressed && player.x > 0) {
+                player.x -= player.speed;
+            }
+            if (rightPressed && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            }
+        }
+
+        // Projectile logic
+        function shoot() {
+            const projectile = {
+                x: player.x + player.width / 2 - 5,
+                y: player.y,
+                width: 10,
+                height: 20,
+                speed: 5
+            };
+            projectiles.push(projectile);
+        }
+
+        // Draw projectiles
+        function drawProjectiles() {
+            for (let i = 0; i < projectiles.length; i++) {
+                const p = projectiles[i];
+                ctx.fillStyle = "#00f";
+                ctx.fillRect(p.x, p.y, p.width, p.height);
+                p.y -= p.speed;
+
+                if (p.y < 0) {
+                    projectiles.splice(i, 1);
+                    i--;
+                }
+
+                // Check for collision with enemies
+                for (let j = 0; j < enemies.length; j++) {
+                    const e = enemies[j];
+                    if (
+                        p.x < e.x + e.width &&
+                        p.x + p.width > e.x &&
+                        p.y < e.y + e.height &&
+                        p.y + p.height > e.y
+                    ) {
+                        projectiles.splice(i, 1);
+                        i--;
+                        enemies.splice(j, 1);
+                        j--;
+                        score += 10;
+                        updateScore();
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Enemy logic
+        function createEnemy() {
+            const enemy = {
+                x: Math.random() * (canvas.width - 50),
+                y: -50,
+                width: 50,
+                height: 50,
+                speed: 2 + Math.random() * 3
+            };
+            enemies.push(enemy);
+        }
+
+        function drawEnemies() {
+            for (let i = 0; i < enemies.length; i++) {
+                const e = enemies[i];
+                ctx.fillStyle = "#f00";
+                ctx.fillRect(e.x, e.y, e.width, e.height);
+                e.y += e.speed;
+
+                // Check for collision with player
+                if (
+                    e.x < player.x + player.width &&
+                    e.x + e.width > player.x &&
+                    e.y < player.y + player.height &&
+                    e.y + e.height > player.y
+                ) {
+                    health -= 10;
+                    enemies.splice(i, 1);
+                    i--;
+                    updateHealth();
+                    if (health <= 0) {
+                        gameOver = true;
+                        document.getElementById("gameOver").style.display = "block";
+                    }
+                }
+
+                // Remove off-screen enemies
+                if (e.y > canvas.height) {
+                    enemies.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        // Update score
+        function updateScore() {
+            document.getElementById("scoreBoard").textContent = "Score: " + score;
+        }
+
+        // Update health bar
+        function updateHealth() {
+            const healthWidth = (health / 100) * 200;
+            document.getElementById("health").style.width = healthWidth + "px";
+        }
+
+        // Game over reset
+        function resetGame() {
+            score = 0;
+            health = 100;
+            gameOver = false;
+            projectiles.length = 0;
+            enemies.length = 0;
+            document.getElementById("gameOver").style.display = "none";
+            updateScore();
+            updateHealth();
+            gameLoop();
+        }
+
+        // Game logic
+        function gameLoop() {
+            if (gameOver) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            movePlayer();
+            drawProjectiles();
+            drawEnemies();
+            if (Math.random() < 0.02) createEnemy();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+
+</body>
+
+</html>
